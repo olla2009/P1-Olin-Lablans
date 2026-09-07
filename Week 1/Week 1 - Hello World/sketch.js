@@ -18,17 +18,19 @@ function draw() {
   fill("blue")
   rect(40, 140, 100, 20)
 
-  //schaakbord
-  fill("black")
-  text("3.", 20, 200)
+  // Schaakbord 
+  fill("black");
+  text("3.", 20, 200);
 
-  fill("black")
-  square(40, 180, 100)
-  fill("white")
-  square(73, 180, 33)
-  square(73, 246, 33)
-  square(40, 214, 33)
-  square(106, 214, 33)
+
+  fill("black");
+  square(40, 180, 99);
+
+  fill("white");
+  square(73, 180, 33);
+  square(40, 213, 33);
+  square(106, 213, 33);
+  square(73, 246, 33);
 
   //huis
   fill("black")
