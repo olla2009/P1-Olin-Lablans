@@ -49,7 +49,7 @@ function draw() {
   fill("grey")
   rect(250, 20, 40, 120)
   rect(260, 140, 20, 80)
-  fill("lightblue")
+  fill("red")
   circle(270, 40, 30)
   fill("orange")
   circle(270, 80, 30)
