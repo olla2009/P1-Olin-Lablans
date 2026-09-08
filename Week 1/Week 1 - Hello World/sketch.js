@@ -44,6 +44,7 @@ function draw() {
   square(60, 375, 65)
 
   //stoplicht
+  noStroke()
   fill("black")
   text("5.", 220, 70)
   fill("grey")
@@ -55,6 +56,7 @@ function draw() {
   circle(270, 80, 30)
   fill("green")
   circle(270, 40 * 3, 30)
+
 
   //dobbelsteen
   fill("black")
@@ -72,6 +74,8 @@ function draw() {
   text("7. pacman", 350, 325)
   push();
   translate(350, 200);
+
+  //zwart 
   fill("black")
   rect(200, 20, 60, 10)
   rect(170, 30, 30, 10)
@@ -104,8 +108,9 @@ function draw() {
   rect(270, 50, 20, 10)
   rect(270, 50, 20, 10)
   rect(260, 30, 10, 20)
+
+  //geel
   fill("yellow")
-  noStroke()
   rect(200, 30, 60, 10)
   rect(170, 40, 90, 10)
   rect(140, 50, 130, 10)
@@ -129,53 +134,80 @@ function draw() {
   rect(140, 200, 130, 10)
   rect(160, 210, 90, 10)
   rect(180, 220, 50, 10)
+
+
+  //wit
+  fill("white")
+  rect(210, 60, 20, 20)
+
+  //zwart voor oog
+  fill("black")
+  rect(220, 70, 10, 10)
+
+
   pop();
 
+  text("8. mario", 400, 50)
   //mario
   push();
-  noStroke()
-  translate(500, 10)
-  for (let y = 0; y < pixels.length; y++) {
-    for (let x = 0; x < pixels[y].length; x++) {
+  translate(0, -80);
 
-      if (pixels[y][x] == 0) {
-        fill(255, 0, 0);
-      }
+  //rood
+  fill(255, 0, 0)
+  rect(500, 100, 60, 10)
+  rect(490, 110, 90, 10)
+  rect(490, 110, 90, 10)
+  rect(490, 170, 70, 10)
+  rect(480, 180, 100, 10)
+  rect(480, 180, 100, 10)
+  rect(470, 190, 120, 10)
+  rect(490, 200, 80, 10)
 
-      if (pixels[y][x] == 1) {
-        fill(255, 200, 160);
-      }
+  //huidskleur
+  fill(255, 200, 160)
+  rect(520, 120, 30, 10)
+  rect(550, 130, 30, 10)
+  rect(560, 140, 30, 10)
+  rect(540, 140, 10, 10)
+  rect(520, 120, 20, 40)
+  rect(520, 120, 20, 40)
+  rect(490, 130, 10, 30)
+  rect(510, 130, 10, 10)
+  rect(500, 150, 20, 10)
+  rect(500, 160, 80, 10)
+  rect(470, 200, 20, 30)
+  rect(570, 200, 20, 30)
+  rect(490, 210, 80, 10)
 
-      if (pixels[y][x] == 2) {
-        fill(152, 64, 56);
-      }
+  //bruin
+  fill(152, 64, 56)
+  rect(490, 120, 30, 10)
+  rect(480, 130, 10, 30)
+  rect(490, 150, 10, 10)
+  rect(500, 130, 10, 10)
+  rect(500, 140, 20, 10)
+  rect(480, 240, 30, 10)
+  rect(470, 250, 40, 10)
+  rect(550, 240, 30, 10)
+  rect(550, 250, 40, 10)
 
-      if (pixels[y][x] == 3) {
-        fill(0, 0, 0);
-      }
+  //blauw
+  fill(0, 0, 255)
+  rect(510, 170, 10, 30)
+  rect(510, 200, 40, 10)
+  rect(540, 190, 10, 10)
+  rect(500, 210, 60, 20)
+  rect(490, 220, 30, 20)
+  rect(540, 220, 30, 20)
 
-      if (pixels[y][x] == 4) {
-        fill(0, 0, 255);
-      }
+  //zwart
+  fill(0, 0, 0)
+  rect(540, 120, 10, 20)
+  rect(550, 140, 10, 10)
+  rect(540, 150, 40, 10)
 
-      if (pixels[y][x] == 5) {
-        fill(255, 255, 0);
-      }
-
-      if (pixels[y][x] == 6) {
-        fill(255, 255, 255);
-      }
-
-      square(x * 15, y * 15, 15);
-    }
-  }
+  //geel
+  fill(255, 255, 0)
+  rect(510, 210, 10, 10)
+  rect(540, 210, 10, 10)
 }
-let pixels = [
-  [6, 6, 6, 6, 6, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6,],
-  [6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6,],
-  [6, 6, 6, 6, 2, 2, 2, 1, 1, 3, 6, 6, 6, 6, 6, 6,],
-  [6, 6, 6, 2, 1, 2, 1, 1, 1, 3, 6, 6, 6, 6, 6, 6,],
-  [6, 6, 6, 2, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,],
-  [6, 6, 6, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,],
-];
-
