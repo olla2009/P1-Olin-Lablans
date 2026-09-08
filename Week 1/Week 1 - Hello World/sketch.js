@@ -1,9 +1,12 @@
 function setup() {
 
-  createCanvas(1400, 1400);
+  createCanvas(800, 500);
 }
 //naam
 function draw() {
+  //achtergrond
+  background(233, 255, 255)
+
   fill("black")
   textSize(15)
   text("olin", 50, 50);
@@ -32,16 +35,19 @@ function draw() {
   square(106, 213, 33);
   square(73, 246, 33);
 
-  //huis
-  fill("black")
-  text("4.", 20, 400)
-  fill("black")
-  noFill()
+  // Huis
+  fill(0, 0, 0);
+  text("4.", 20, 400);
+  strokeWeight(3);
+  noFill();
   push();
   translate(40, 300);
   triangle(20, 75, 58, 20, 86, 75);
   pop();
-  square(60, 375, 65)
+  square(60, 375, 65);
+
+  // dit heb ik om de randen voor de rest weer normaal te maken 
+  strokeWeight(0);
 
   //stoplicht
   noStroke()
@@ -59,6 +65,7 @@ function draw() {
 
 
   //dobbelsteen
+  stroke(0);
   fill("black")
   square(240, 280, 80)
   fill("white")
@@ -74,7 +81,7 @@ function draw() {
   text("7. pacman", 350, 325)
   push();
   translate(350, 200);
-
+  noStroke();
   //zwart 
   fill("black")
   rect(200, 20, 60, 10)
@@ -151,7 +158,7 @@ function draw() {
   //mario
   push();
   translate(0, -80);
-
+  noStroke();
   //rood
   fill(255, 0, 0)
   rect(500, 100, 60, 10)
@@ -211,8 +218,11 @@ function draw() {
   rect(510, 210, 10, 10)
   rect(540, 210, 10, 10)
 
+  pop();
+
   push();
-  translate(500, 390);
+  translate(500, 310);
+  noStroke();
   fill(227, 52, 42)
   rect(200, 20, 55, 55, 30, 30, 12, 12);
   ellipse(209, 73, 20, 20)
@@ -224,6 +234,7 @@ function draw() {
   fill(60, 102, 255);
   ellipse(237, 45, 10, 10);
   ellipse(213, 45, 10, 10);
+  pop();
 
 }
 
