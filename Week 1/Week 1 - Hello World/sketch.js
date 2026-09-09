@@ -2,14 +2,13 @@ function setup() {
 
   createCanvas(800, 500);
 }
-//naam
+
 function draw() {
-  //achtergrond
   background(233, 255, 255)
 
   fill("black")
   textSize(15)
-  text("olin", 50, 50);
+  text("Olin Lablans", 50, 50);
   text("1.", 20, 50);
 
   //vlag NL
@@ -24,7 +23,8 @@ function draw() {
   // Schaakbord 
   fill("black");
   text("3.", 20, 200);
-
+  strokeWeight(3);
+  stroke(1);
 
   fill("black");
   square(40, 180, 99);
@@ -34,10 +34,12 @@ function draw() {
   square(40, 213, 33);
   square(106, 213, 33);
   square(73, 246, 33);
+  noStroke()
 
   // Huis
   fill(0, 0, 0);
   text("4.", 20, 400);
+  stroke(0);
   strokeWeight(3);
   noFill();
   push();
@@ -78,10 +80,11 @@ function draw() {
   text("6.", 220, 300)
 
   //packman
-  text("7. pacman", 350, 325)
+  text("8. pacman", 350, 325)
   push();
   translate(350, 200);
   noStroke();
+
   //zwart 
   fill("black")
   rect(200, 20, 60, 10)
@@ -151,14 +154,20 @@ function draw() {
   fill("black")
   rect(220, 70, 10, 10)
 
+  //blauw in oog
+  fill(60, 102, 255);
+  rect(225, 75, 5, 5)
+
 
   pop();
 
-  text("8. mario", 400, 50)
   //mario
+  text("7. mario", 400, 50)
+
   push();
   translate(0, -80);
   noStroke();
+
   //rood
   fill(255, 0, 0)
   rect(500, 100, 60, 10)
@@ -220,8 +229,10 @@ function draw() {
 
   pop();
 
+  //ghost
   push();
   translate(500, 310);
+
   noStroke();
   fill(227, 52, 42)
   rect(200, 20, 55, 55, 30, 30, 12, 12);
