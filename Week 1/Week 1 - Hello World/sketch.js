@@ -6,30 +6,38 @@ function setup() {
 function draw() {
   background(233, 255, 255)
 
-  fill("black")
+  //tekst
+  fill(0, 0, 0)
   textSize(15)
   text("Olin Lablans", 50, 50);
   text("1.", 20, 50);
 
   //vlag NL
   text("2.", 20, 130)
-  fill("red")
+
+  //rood
+  fill(255, 0, 0)
   rect(40, 100, 100, 20)
-  fill("white")
+
+  //wit
+  fill(255, 255, 255)
   rect(40, 120, 100, 20)
-  fill("blue")
+
+  //blauw
+  fill(0, 0, 255)
   rect(40, 140, 100, 20)
 
   // Schaakbord 
-  fill("black");
+
+  //tekst
+  fill(0, 0, 0);
   text("3.", 20, 200);
   strokeWeight(3);
   stroke(1);
-
-  fill("black");
   square(40, 180, 99);
 
-  fill("white");
+  //wit
+  fill(255, 255, 255);
   square(73, 180, 33);
   square(40, 213, 33);
   square(106, 213, 33);
@@ -52,27 +60,43 @@ function draw() {
   strokeWeight(0);
 
   //stoplicht
+
+  //tekst
   noStroke()
-  fill("black")
+  fill(0, 0, 0)
   text("5.", 220, 70)
-  fill("grey")
+
+  //grijs
+  fill(113, 121, 126)
   rect(250, 20, 40, 120)
   rect(260, 140, 20, 80)
-  fill("red")
+
+  //rood
+  fill(255, 0, 0)
   circle(270, 40, 30)
-  fill("orange")
+
+  //oranje
+  fill(255, 128, 0)
   circle(270, 80, 30)
-  fill("green")
+
+  //groen
+  fill(0, 255, 0)
   circle(270, 40 * 3, 30)
 
 
   //dobbelsteen
   stroke(0);
-  fill("black")
+
+  //zwart
+  fill(0, 0, 0)
   square(240, 280, 80)
-  fill("white")
+
+  //wit
+  fill(255, 255, 255)
   square(245, 285, 70)
-  fill("black")
+
+  //zwart
+  fill(0, 0, 0)
   circle(300, 340, 20)
   circle(300, 300, 20)
   circle(260, 300, 20)
@@ -86,7 +110,7 @@ function draw() {
   noStroke();
 
   //zwart 
-  fill("black")
+  fill(0, 0, 0)
   rect(200, 20, 60, 10)
   rect(170, 30, 30, 10)
   rect(140, 40, 30, 10)
@@ -120,7 +144,7 @@ function draw() {
   rect(260, 30, 10, 20)
 
   //geel
-  fill("yellow")
+  fill(255, 255, 0)
   rect(200, 30, 60, 10)
   rect(170, 40, 90, 10)
   rect(140, 50, 130, 10)
@@ -147,11 +171,11 @@ function draw() {
 
 
   //wit
-  fill("white")
+  fill(255, 255, 255)
   rect(210, 60, 20, 20)
 
   //zwart voor oog
-  fill("black")
+  fill(0, 0, 0)
   rect(220, 70, 10, 10)
 
   //blauw in oog
@@ -234,14 +258,20 @@ function draw() {
   translate(500, 310);
 
   noStroke();
+
+  //rood
   fill(227, 52, 42)
   rect(200, 20, 55, 55, 30, 30, 12, 12);
   ellipse(209, 73, 20, 20)
   ellipse(228, 73, 20, 20)
   ellipse(247, 73, 20, 20)
-  fill(255)
+
+  //wit
+  fill(255, 255, 255)
   ellipse(216, 45, 15, 20)
   ellipse(240, 45, 15, 20)
+
+  //blauw
   fill(60, 102, 255);
   ellipse(237, 45, 10, 10);
   ellipse(213, 45, 10, 10);
