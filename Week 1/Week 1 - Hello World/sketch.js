@@ -89,11 +89,11 @@ function draw() {
 
   //zwart
   fill(0, 0, 0)
-  square(240, 280, 80)
+  square(240, 280, 80, 10)
 
   //wit
   fill(255, 255, 255)
-  square(245, 285, 70)
+  square(245, 285, 70, 10)
 
   //zwart
   fill(0, 0, 0)
