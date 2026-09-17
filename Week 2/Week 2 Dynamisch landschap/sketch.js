@@ -1,14 +1,14 @@
 //variabelen
 
-//boom
-let move_bladeren_Boom = 0
-
+//UFO
+let move_UFO = -5000;
 
 //auto's
-let move = 0;
-let move_2 = 0;
-let move_3 = 0;
-let move_4 = 0;
+let Minimal_space = 400;
+let move_auto_1 = 0;
+let move_auto_2 = 0;
+let move_auto_3 = 0;
+let move_auto_4 = 0;
 
 //zon
 let move_sun = 0;
@@ -26,17 +26,19 @@ let timer = 0;
 let statusStoplicht = "groen";
 
 function keyPressed() {
-    if (statusStoplicht == "groen") {
-        statusStoplicht = "oranje";
-        return;
-    }
-    if (statusStoplicht == "oranje") {
-        statusStoplicht = "rood";
-        return;
-    }
-    if (statusStoplicht == "rood") {
-        statusStoplicht = "groen";
-        return;
+    if (keyCode == 13) {
+        if (statusStoplicht == "groen") {
+            statusStoplicht = "oranje";
+            return;
+        }
+        if (statusStoplicht == "oranje") {
+            statusStoplicht = "rood";
+            return;
+        }
+        if (statusStoplicht == "rood") {
+            statusStoplicht = "groen";
+            return;
+        }
     }
 }
 
@@ -48,8 +50,6 @@ function setup() {
     random_color = 0 + random(140, 255);
 }
 
-
-
 function draw() {
     background(136, 206, 235);
 
@@ -59,22 +59,35 @@ function draw() {
         timer = 0;
     }
 
+    //UFO loopen
+    move_UFO += 0.1 * 200
+    if (move_UFO > 10000) {
+        move_UFO = -750;
+    }
+
     //auto's loopen
-    if (move > 1100) {
-        move = -750;
+    if (move_auto_3 > 1100) {
+        move_auto_3 = min(move_auto_4 - Minimal_space, -850);
     }
 
-    if (move_2 > 1100) {
-        move_2 = -850;
+
+    if (move_auto_4 > 1100) {
+        move_auto_4 = min(move_auto_3 - Minimal_space, -850);
     }
 
-    if (move_3 > 1100) {
-        move_3 = -850;
+
+
+    if (move_auto_1 > 1100) {
+        move_auto_1 = min(move_auto_2 - Minimal_space, -850);
     }
 
-    if (move_4 > 1400) {
-        move_4 = -950;
+
+    if (move_auto_2 > 1100) {
+        move_auto_2 = min(move_auto_1 - Minimal_space, -850);
     }
+
+
+
 
     //wolken
 
@@ -110,14 +123,18 @@ function draw() {
         pulsing_sun = 0;
     }
 
-
+    //bladeren bewegen
+    let Move_leaves_1 = 4 * sin(frameCount * 0.03)
+    let Move_leaves_2 = 7 * sin(frameCount * 0.03 + 0.5)
+    let Move_leaves_3 = 10 * sin(frameCount * 0.03 + 1.0)
+    let Move_leaves_4 = 13 * sin(frameCount * 0.03 + 1.5)
 
     //zon
     push();
     fill(255, 165, 0, 70);
     circle(150 + move_sun, 100, 100 + pulsing_sun);
     circle(150 + move_sun, 100, 200 - pulsing_sun);
-    fill("yellow");
+    fill(255, 255, 0);
     circle(150 + move_sun, 100, 70);
     pop();
 
@@ -201,14 +218,47 @@ function draw() {
     rect(850, 550, 20, 150)
 
     //bladeren
+    fill(120, 200, 85)
+    circle(190 + Move_leaves_1, 550, 80)
+
     fill(78, 169, 59)
-    circle(200, 550, 80)
+    circle(190 + Move_leaves_2, 550, 80)
 
     fill(47, 127, 52)
-    circle(500, 550, 84)
+    circle(190 + Move_leaves_3, 550, 80)
 
-    fill(91, 112, 67)
-    circle(860, 550, 84)
+    fill(27, 77, 34)
+    circle(190 + Move_leaves_4, 550, 80)
+
+
+    fill(120, 200, 85)
+    circle(490 + Move_leaves_1, 550, 84)
+
+
+    fill(78, 169, 59)
+    circle(490 + Move_leaves_2, 550, 84)
+
+    fill(47, 127, 52)
+    circle(490 + Move_leaves_3, 550, 84)
+
+
+    fill(27, 77, 34)
+    circle(490 + Move_leaves_4, 550, 84)
+
+
+    fill(120, 200, 85)
+    circle(850 + Move_leaves_1, 550, 84)
+
+
+    fill(78, 169, 59)
+    circle(850 + Move_leaves_2, 550, 84)
+
+    fill(47, 127, 52)
+    circle(850 + Move_leaves_3, 550, 84)
+
+
+    fill(27, 77, 34)
+    circle(850 + Move_leaves_4, 550, 84)
 
 
 
@@ -236,7 +286,6 @@ function draw() {
     rect(-10, 540, 100, 15, 20);
     rect(150, 540, 100, 15, 20);
     rect(310, 540, 100, 15, 20);
-    rect(310, 540, 100, 15, 20);
     rect(470, 540, 100, 15, 20);
     rect(630, 540, 100, 15, 20);
     rect(790, 540, 100, 15, 20);
@@ -244,11 +293,11 @@ function draw() {
 
     //stoplicht
     push();
-    translate(430, 485, -10);
+    translate(650, 485, -10);
     noStroke();
 
-    //grijs(stok)
-    fill(113, 121, 126);
+    //stok zwart
+    fill(0, 0, 0);
     rect(265, 140, 10, 80);
     rect(250, 20, 40, 120);
 
@@ -269,20 +318,20 @@ function draw() {
         fill(13, 219, 13);
         circle(270, 120, 30);
 
-        move += 0.1 * 20;
-        move_2 += 0.1 * 20;
-        move_3 += 0.1 * 100;
-        move_4 += 0.1 * 100;
+        move_auto_1 += 0.1 * 50;
+        move_auto_2 += 0.1 * 50;
+        move_auto_3 += 0.1 * 100;
+        move_auto_4 += 0.1 * 100;
     }
 
     if (statusStoplicht == "oranje") {
         fill(255, 102, 0);
         circle(270, 80, 30);
 
-        move += 0.1 * 5;
-        move_2 += 0.1 * 5;
-        move_3 += 0.1 * 30;
-        move_4 += 0.1 * 30;
+        move_auto_1 += 0.1 * 15;
+        move_auto_2 += 0.1 * 15;
+        move_auto_3 += 0.1 * 30;
+        move_auto_4 += 0.1 * 30;
     }
 
     if (statusStoplicht == "rood") {
@@ -294,27 +343,50 @@ function draw() {
 
     //auto boven 1
     push();
-    translate(0 + move_3, -60, 0);
+    translate(0 + move_auto_3, -60, 0);
 
     //body
-    fill(255, 0, 0);
+    fill(random_color, 20, 50);
+
+
+    //body
+    fill(random_color, 100, 80);
+    rect(575, 630, 100, 50);
     rect(575, 725, 150, 50);
     rect(575, 680, 100, 50);
+
+    rect(470, 630, 110, 50);
+    rect(470, 725, 160, 50);
+    rect(470, 680, 110, 50);
 
     // tire
     fill(64);
     circle(700, 770, 50);
-    circle(600, 770, 50);
+    circle(620, 770, 50);
+    circle(490, 770, 50);
+    circle(560, 770, 50);
+
+    //windows
+    strokeWeight(5);
+    stroke("black")
+    fill(144, 213, 255)
+    rect(480, 660, 80, 50, 20);
+    rect(580, 660, 80, 50, 20);
     pop();
 
     //auto boven 2
     push();
-    translate(-300 + move_4, -60, 0);
+    translate(-300 + move_auto_4, -60, 0);
 
     //body
     fill(random_color, random_color, 0);
     rect(575, 725, 150, 50);
     rect(575, 680, 100, 50);
+
+    //hat
+    fill(0, 0, random_color,)
+    rect(575, 655, 100, 25, 0)
+    rect(575, 645, 100, 25, 100)
 
     // tire
     fill(64);
@@ -325,7 +397,7 @@ function draw() {
     //auto onder 1
     noStroke();
     push();
-    translate(-200 + move_2, 0, 0);
+    translate(-200 + move_auto_2, 0, 0);
 
     //body
     fill(random_color, 0, random_color);
@@ -340,7 +412,7 @@ function draw() {
 
     //auto onder 2
     push();
-    translate(0 + move, 0, 0);
+    translate(0 + move_auto_1, 0, 0);
 
     //body
     fill(0, random_color, random_color);
@@ -354,6 +426,34 @@ function draw() {
     pop();
 
 
+    //ufo
+    push()
+    translate(move_UFO, 0, 0)
+
+    fill(0, 255, 0)
+    ellipse(150, 160, 25, 40,)
+
+    fill(0, 0, 0)
+    rect(145, 150, 10, 10, 100)
+
+    fill(0, 0, 255, 90)
+    circle(150, 180, 80)
+
+
+    fill(150, 150, 150)
+    ellipse(150, 200, 200, 50,)
+
+    fill(0, 0, 255)
+    ellipse(150, 220, 25, 10,)
+
+    fill(0, 0, 0)
+    rect(50, 195, 200, 10, 100)
+    pop()
+
+
+
+
+
     //boom voor
 
     //stam
@@ -362,7 +462,19 @@ function draw() {
 
     //bladeren
 
+    fill(120, 200, 85)
+    circle(40 + Move_leaves_1, 650, 90)
+
+
+    fill(78, 169, 59)
+    circle(40 + Move_leaves_2, 650, 90)
+
+    fill(47, 127, 52)
+    circle(40 + Move_leaves_3, 650, 90)
+
+
     fill(27, 77, 34)
-    circle(55, 650, 90)
+    circle(40 + Move_leaves_4, 650, 90)
+    line(mouseX, 100, mouseX, 100);
 
 }
