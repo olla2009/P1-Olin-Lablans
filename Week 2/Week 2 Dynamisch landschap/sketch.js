@@ -179,7 +179,7 @@ function draw() {
     circle(160, 85, 50);
     pop();
 
-    // MOUNTAINS
+    // Mountains
     push();
     translate(100, 190, 0);
     stroke(0);
