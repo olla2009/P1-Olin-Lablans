@@ -73,7 +73,7 @@ function draw() {
     background(20, 45, 30);
   }
 
-  //casino bord
+  //casino sign
   push();
   noFill();
   stroke(97, 102, 106);
@@ -108,7 +108,7 @@ function draw() {
   circle(825, 410, 10);
   circle(825, 390, 10);
 
-  //tafel
+  //Table
   fill(139, 69, 19);
   circle(500, 400, 600);
   fill(160, 80, 30);
@@ -127,15 +127,62 @@ function draw() {
   push();
   strokeWeight(5);
   stroke(166, 25, 32);
+
+  if (square1 === "empty" && mouseX > rectX_square1 && mouseX < rectX_square1 + rectW_square && mouseY > rectY_square_top && mouseY < rectY_square_top + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square1, rectY_square_top, rectW_square, rectH_square, rounding);
+  if (square2 === "empty" && mouseX > rectX_square2 && mouseX < rectX_square2 + rectW_square && mouseY > rectY_square_top && mouseY < rectY_square_top + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square2, rectY_square_top, rectW_square, rectH_square, rounding);
+  if (square3 === "empty" && mouseX > rectX_square3 && mouseX < rectX_square3 + rectW_square && mouseY > rectY_square_top && mouseY < rectY_square_top + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square3, rectY_square_top, rectW_square, rectH_square, rounding);
+  if (square4 === "empty" && mouseX > rectX_square4 && mouseX < rectX_square4 + rectW_square && mouseY > rectY_square_middle && mouseY < rectY_square_middle + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square4, rectY_square_middle, rectW_square, rectH_square, rounding);
+  if (square5 === "empty" && mouseX > rectX_square5 && mouseX < rectX_square5 + rectW_square && mouseY > rectY_square_middle && mouseY < rectY_square_middle + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square5, rectY_square_middle, rectW_square, rectH_square, rounding);
+  if (square6 === "empty" && mouseX > rectX_square6 && mouseX < rectX_square6 + rectW_square && mouseY > rectY_square_middle && mouseY < rectY_square_middle + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square6, rectY_square_middle, rectW_square, rectH_square, rounding);
+  if (square7 === "empty" && mouseX > rectX_square7 && mouseX < rectX_square7 + rectW_square && mouseY > rectY_square_bottom && mouseY < rectY_square_bottom + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square7, rectY_square_bottom, rectW_square, rectH_square, rounding);
+  if (square8 === "empty" && mouseX > rectX_square8 && mouseX < rectX_square8 + rectW_square && mouseY > rectY_square_bottom && mouseY < rectY_square_bottom + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square8, rectY_square_bottom, rectW_square, rectH_square, rounding);
+  if (square9 === "empty" && mouseX > rectX_square9 && mouseX < rectX_square9 + rectW_square && mouseY > rectY_square_bottom && mouseY < rectY_square_bottom + rectH_square) {
+    fill(235, 210, 210);
+  } else {
+    fill(255);
+  }
   rect(rectX_square9, rectY_square_bottom, rectW_square, rectH_square, rounding);
+
   pop();
 
   textSize(80);
