@@ -125,8 +125,8 @@ function draw() {
 
   // squares
   push();
-  strokeWeight(5);
-  stroke(166, 25, 32);
+  strokeWeight(4);
+  stroke(0, 0, 0, 200);
 
   if (square1 === "empty" && mouseX > rectX_square1 && mouseX < rectX_square1 + rectW_square && mouseY > rectY_square_top && mouseY < rectY_square_top + rectH_square) {
     fill(235, 210, 210);
