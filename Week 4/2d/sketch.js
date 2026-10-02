@@ -49,17 +49,16 @@ let TextFontArray = [];
 
 // no array variables
 let quantity = 0;
-let MinQuantity = 65;
-let MaxQuantity = 65;
+let MinQuantity = 10;
+let MaxQuantity = 60;
 let TimeCapturing = 5;
 let IsCapturing = false;
 let MaxWidth = 1000;
 let MaxHeight = 800;
-let RectShapeScale = 1.0;
+let TriangleShapeScale = 1.0;
 
 function setup() {
   createCanvas(1000, 700);
-  quantity = floor(random(MinQuantity, MaxQuantity));
   noCursor();
   ResetSketch();
 }
@@ -104,9 +103,9 @@ function draw() {
     rect(RectPositionX[i], RectPositionY[i], RectWidth[i], RectHeight[i]);
 
     triangle(
-      TrianglePositionX[i] + TrianglePointX1[i] * RectShapeScale, TrianglePositionY[i] + TrianglePointY1[i] * RectShapeScale,
-      TrianglePositionX[i] + TrianglePointX2[i] * RectShapeScale, TrianglePositionY[i] + TrianglePointY2[i] * RectShapeScale,
-      TrianglePositionX[i] + TrianglePointX3[i] * RectShapeScale, TrianglePositionY[i] + TrianglePointY3[i] * RectShapeScale
+      TrianglePositionX[i] + TrianglePointX1[i] * TriangleShapeScale, TrianglePositionY[i] + TrianglePointY1[i] * TriangleShapeScale,
+      TrianglePositionX[i] + TrianglePointX2[i] * TriangleShapeScale, TrianglePositionY[i] + TrianglePointY2[i] * TriangleShapeScale,
+      TrianglePositionX[i] + TrianglePointX3[i] * TriangleShapeScale, TrianglePositionY[i] + TrianglePointY3[i] * TriangleShapeScale
     );
 
     push();
@@ -185,10 +184,7 @@ function keyPressed() {
     TextSizeArray = [];
     TextFontArray = [];
 
-    // resets the quantity
-    quantity = floor(random(MinQuantity, MaxQuantity));
-
-    // sets new random values for the arrays
+    // sets new values for the arrays
     ResetSketch();
   }
 
@@ -214,9 +210,9 @@ function keyPressed() {
 
   //Scales the triangles
   if (keyCode === UP_ARROW) {
-    RectShapeScale += 0.1;
+    TriangleShapeScale += 0.1;
   } else if (keyCode === DOWN_ARROW) {
-    RectShapeScale = max(0.1, RectShapeScale - 0.1);
+    TriangleShapeScale = max(0.1, TriangleShapeScale - 0.1);
   }
 }
 
@@ -226,8 +222,10 @@ function stopCapturing() {
 
 
 
-// Reset the sketch with new random values
+// function to reset the sketch with new random values
 function ResetSketch() {
+  quantity = floor(random(MinQuantity, MaxQuantity));
+
   for (let i = 0; i < quantity; i = i + 1) {
     RandomRed.push(floor(random(0, 255)));
     RandomGreen.push(floor(random(0, 255)));
