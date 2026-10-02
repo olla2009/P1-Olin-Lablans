@@ -37,7 +37,7 @@ let TrianglePointX2 = [];
 let TrianglePointY2 = [];
 let TrianglePointX3 = [];
 let TrianglePointY3 = [];
-// , Times New Roman, Courier New, Comic Sans MS, and Georgia
+
 //Random Text
 let myWords = ["art", "code", "p5.js", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 let myFonts = ['Courier New', 'Arial', 'Georgia', 'Times New Roman', 'Comic Sans MS'];
@@ -135,7 +135,7 @@ function draw() {
     fill(255, 255, 255);
     text("press N for new art", 20, 645);
     text("Press Backspace to give shapes a different color", 240, 635, 250, 100);
-    text("Press UP / DOWN ARROW to resize ALL shapes", 520, 635, 250, 100);
+    text("Press UP / DOWN ARROW to resize all rectangles", 520, 635, 250, 100);
     text("Press S to create a GIF", 800, 635, 180, 100);
     pop();
   }
