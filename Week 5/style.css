@@ -1,8 +1,31 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
-canvas {
+img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
   display: block;
+}
+
+button {
+  width: 200px;
+  height: 50px;
+  font-size: x-large;
+  background-color: #b3ccdb;
+  cursor: pointer;
+  border: none;
+}
+
+
+.button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }

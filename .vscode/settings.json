@@ -1,4 +1,7 @@
 {
     "accessibility.verbosity.inlineCompletions": true,
-    "github.copilot.completions.chat.enabled": false
+    "github.copilot.completions.chat.enabled": false,
+    "github.copilot.enable": {
+        "*": false
+    }
 }
