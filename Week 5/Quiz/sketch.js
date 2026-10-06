@@ -1,9 +1,6 @@
 //Buttons
-let ButtonA
-let ButtonB
-let ButtonC
-let ButtonD
-let ButtonNext
+let optionButtons = [];
+let ButtonNext;
 
 //Button style
 
@@ -31,8 +28,6 @@ Questions.push('Wat is het allereerste Skylanders-spel dat uitkwam op de console
 
 //to next question
 let CurrentQuestion = 0;
-
-
 
 //Answers (A is always the right answer B C D are fill ups)
 let AnswerA = []
@@ -63,27 +58,24 @@ function preload() {
   QuizImages.push(loadImage('/Week 5/assets/Kaos.png'));
   QuizImages.push(loadImage('/Week 5/assets/skylandersDVD.png'));
   QuizImages.push(loadImage('/Week 5/assets/collectie foto skylander games.png'));
-
-
 }
 
 
 function setup() {
   createCanvas(800, 600);
-  vragenSetup();
-  QuizImages[CurrentQuestion].resize(400, 400);
+  QuistionSetup();
   //RowBowSound = loadSound('/Week 5/assets/Row-Bow sound.mp3');
-  randomiseknoppen();
+  RandomiseButtons();
 }
 
-function randomiseknoppen() {
+function RandomiseButtons() {
   let array_posities = [225, 315, 405, 495];
   array_posities = shuffle(array_posities);
   console.log(array_posities);
-  ButtonA.position(array_posities[0], ButtonPositionY);
-  ButtonB.position(array_posities[1], ButtonPositionY);
-  ButtonC.position(array_posities[2], ButtonPositionY);
-  ButtonD.position(array_posities[3], ButtonPositionY);
+
+  for (let i = 0; i < optionButtons.length; i++) {
+    optionButtons[i].position(array_posities[i], ButtonPositionY);
+  }
 }
 
 function draw() {
@@ -100,79 +92,79 @@ function draw() {
 }
 
 function mousePressed() {
-  RowBowSound.play();
+  if (RowBowSound) {
+    RowBowSound.play();
+  }
 }
 
 
 function WrongAnswers() {
   console.log("incorrect");
-  ButtonA.style('background-color', '#00ff08');
-  ButtonB.style('background-color', '#ff0000');
-  ButtonC.style('background-color', '#ff0000');
-  ButtonD.style('background-color', '#ff0000');
+  for (let i = 0; i < optionButtons.length; i++) {
+    if (i === 0) {
+      optionButtons[i].style('background-color', '#00ff08');
+    } else {
+      optionButtons[i].style('background-color', '#ff0000');
+    }
+  }
 }
 
 function RightAnswer() {
   console.log("correct");
-  ButtonA.style('background-color', '#00ff08');
-  ButtonB.style('background-color', '#ff0000');
-  ButtonC.style('background-color', '#ff0000');
-  ButtonD.style('background-color', '#ff0000');
+  for (let i = 0; i < optionButtons.length; i++) {
+    if (i === 0) {
+      optionButtons[i].style('background-color', '#00ff08');
+    } else {
+      optionButtons[i].style('background-color', '#ff0000');
+    }
+  }
 }
 
 
 function NextQuestion() {
-  randomiseknoppen();
   if (CurrentQuestion < Questions.length - 1) {
     CurrentQuestion = CurrentQuestion + 1;
-    updateVragen();
+    UpdateQuestions();
+    RandomiseButtons();
   } else {
     console.log("Einde van de quiz!");
   }
 }
 
 
-function updateVragen() {
-  ButtonA.html(AnswerA[CurrentQuestion]);
-  ButtonB.html(AnswerB[CurrentQuestion]);
-  ButtonC.html(AnswerC[CurrentQuestion]);
-  ButtonD.html(AnswerD[CurrentQuestion]);
+function UpdateQuestions() {
+  let currentAnswers = [
+    AnswerA[CurrentQuestion],
+    AnswerB[CurrentQuestion],
+    AnswerC[CurrentQuestion],
+    AnswerD[CurrentQuestion]
+  ];
 
-  ButtonA.style('background-color', '#00f7ff');
-  ButtonB.style('background-color', '#00f7ff');
-  ButtonC.style('background-color', '#00f7ff');
-  ButtonD.style('background-color', '#00f7ff');
+  for (let i = 0; i < optionButtons.length; i++) {
+    optionButtons[i].html(currentAnswers[i]);
+    optionButtons[i].style('background-color', '#00f7ff');
+  }
 }
 
 
-function vragenSetup() {
-  ButtonA = createButton(AnswerA[CurrentQuestion]);
-  ButtonA.style('background-color', '#00f7ff');
-  ButtonA.style('color', '#3700ff');
-  ButtonA.style('font-family', 'serif');
-  ButtonA.size(WidthButton, HeightButton);
-  ButtonA.mousePressed(RightAnswer);
+function QuistionSetup() {
+  let EveryAnswer = [
+    AnswerA[CurrentQuestion],
+    AnswerB[CurrentQuestion],
+    AnswerC[CurrentQuestion],
+    AnswerD[CurrentQuestion]
+  ];
 
-  ButtonB = createButton(AnswerB[CurrentQuestion]);
-  ButtonB.style('background-color', '#00f7ff');
-  ButtonB.style('color', '#3700ff');
-  ButtonB.style('font-family', 'serif');
-  ButtonB.size(WidthButton, HeightButton);
-  ButtonB.mousePressed(WrongAnswers);
-
-  ButtonC = createButton(AnswerC[CurrentQuestion]);
-  ButtonC.style('background-color', '#00f7ff');
-  ButtonC.style('color', '#3700ff');
-  ButtonC.style('font-family', 'serif');
-  ButtonC.size(WidthButton, HeightButton);
-  ButtonC.mousePressed(WrongAnswers);
-
-  ButtonD = createButton(AnswerD[CurrentQuestion]);
-  ButtonD.style('background-color', '#00f7ff');
-  ButtonD.style('color', '#3700ff');
-  ButtonD.style('font-family', 'serif');
-  ButtonD.size(WidthButton, HeightButton);
-  ButtonD.mousePressed(WrongAnswers);
+  for (let i = 0; i < 4; i++) {
+    let action = (i === 0) ? RightAnswer : WrongAnswers;
+    let Button = createButton(EveryAnswer[i]);
+    Button.size(WidthButton, HeightButton);
+    Button.style('background-color', '#00f7ff');
+    Button.style('color', '#3700ff');
+    Button.style('font-family', 'serif');
+    Button.mousePressed(action);
+    optionButtons.push(Button);
+  }
 
   //Next question button
   ButtonNext = createButton("Next question");
@@ -233,6 +225,4 @@ function Answers() {
   AnswerD.push('Buzzer Beak')
   AnswerD.push('3')
   AnswerD.push('Skylanders: Trap Team')
-
-
 }
