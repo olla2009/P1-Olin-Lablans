@@ -62,7 +62,7 @@ function preload() {
   QuizImages.push(loadImage('/Week 5/assets/pandergast ellement.png'));
   QuizImages.push(loadImage('/Week 5/assets/Kaos.png'));
   QuizImages.push(loadImage('/Week 5/assets/skylandersDVD.png'));
-
+  QuizImages.push(loadImage('/Week 5/assets/collectie foto skylander games.png'));
 
 
 }
