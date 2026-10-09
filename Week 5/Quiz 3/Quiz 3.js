@@ -86,7 +86,7 @@ let quizData = [
     soundPath: '../assets/Skylanders theme.mp3'
   },
   {
-    question: 'Welke Skylander heeft de bekende "I Have a Bone to Pick!"?',
+    question: 'Welke Skylander heeft de bekende catchphrase "I Have a Bone to Pick!"?',
     answers: ['Funny Bone', 'Chop Chop', 'Krypt King', 'Fiesta'],
     correctIndex: 0,
     imagePath: '../assets/skeleton skylanders.png',
