@@ -3,22 +3,23 @@
 //hunger
 let Hunger = 100;
 let DisplayHunger;
+let LoseHunger = 0.4;
 
 //Energy
 let Energy = 100;
 let DisplayEnergy;
+let LoseEnergy = 0.5;
 
 //luck
 let Luck = 100;
 let DisplayLuck;
+let LoseLuck = 0.7;
 
 //health
-//look how to change it so that it is a average
 let HP;
 let DisplayHP;
 
 //universal
-let time;
 let Status;
 
 //iamges
@@ -28,21 +29,41 @@ let Neutral;
 let Hungry;
 let CurrentImg;
 
+//buttons
+let FeedButton;
+let EnergyButton;
+let LuckButton;
 
 function preload() {
-  Happy = loadImage('/Week 6/assets/happy.png')
-  Sad = loadImage('/Week 6/assets/Sad.png')
-  Neutral = loadImage('/Week 6/assets/Neutral.png')
-  Hungry = loadImage('/Week 6/assets/Hungry.png')
+  Happy = loadImage('/assets/happy.png')
+  Sad = loadImage('/assets/Sad.png')
+  Neutral = loadImage('/assets/Neutral.png')
+  Hungry = loadImage('/assets/Hungry.png')
 }
 
 
 function setup() {
   createCanvas(800, 600);
+  //Feed button with functionality
+  FeedButton = createButton('klik om te voeden')
+  FeedButton.mousePressed(Feed);
+  FeedButton.position(0, 250)
+
+  EnergyButton = createButton('klik om hem weer energie te geven')
+  EnergyButton.mousePressed(GiveEnergy);
+  EnergyButton.position(0, 300)
+
+  LuckButton = createButton('klik om hem weer gelukig te maken')
+  LuckButton.mousePressed(GiveLuck);
+  LuckButton.position(0, 350)
+
 }
 
 function draw() {
   background(170);
+  UpdateStats()
+
+
 
 
   textSize(20);
@@ -50,7 +71,6 @@ function draw() {
   textFont(BOLD);
 
   //hunger text
-  UpdateStats()
   DisplayHunger = (floor(Hunger))
   text(DisplayHunger, 300, 30)
 
@@ -66,52 +86,52 @@ function draw() {
   DisplayHP = (floor(HP))
   text(DisplayHP, 450, 30)
 
-  ColorHunger()
-  fill(Status)
-  rect(400, 300, 80, 80)
-
   ImgChanger()
   image(CurrentImg, 20, 0)
+
+
 }
 
 
 
-function ColorHunger() {
-  if (Hunger > 70 && Hunger <= 100) {
-    Status = 'Green'
-  } else if (Hunger > 50 && Hunger <= 70) {
-    Status = 'Blue'
-  } else if (Hunger > 20 && Hunger <= 50) {
-    Status = 'Orange'
-  } else if (Hunger <= 20) {
-    Status = 'Red'
-  }
+function Feed() {
+  Hunger = Hunger + 10
+}
+
+function GiveEnergy() {
+  Energy = Energy + 10
+}
+
+function GiveLuck() {
+  Luck = Luck + 10
 }
 
 function ImgChanger() {
-  if (Hunger > 70 && Hunger <= 100) {
+  if (HP > 70 && HP <= 100) {
     CurrentImg = Happy;
-  } else if (Hunger > 50 && Hunger <= 70) {
+  } else if (HP > 50 && HP <= 70) {
     CurrentImg = Neutral;
-  } else if (Hunger > 20 && Hunger <= 50) {
+  } else if (HP > 20 && HP <= 50) {
     CurrentImg = Hungry;
   }
-  else if (Hunger <= 20) {
+  else if (HP <= 20) {
     CurrentImg = Sad;
   }
 }
 
 function UpdateStats() {
+  let Seconds = deltaTime / 1000
+
   if (Hunger > 1) {
-    Hunger -= 0.5 * (deltaTime / 1000);
+    Hunger -= LoseHunger * Seconds
   }
 
   if (Energy > 1) {
-    Energy -= 0.7 * (deltaTime / 1000);
+    Energy -= LoseEnergy * Seconds
   }
 
   if (Luck > 1) {
-    Luck -= 1 * (deltaTime / 1000);
+    Luck -= LoseLuck * Seconds
   }
 
   HP = (Hunger + Energy + Luck) / 3
