@@ -35,12 +35,19 @@ let Hungry;
 let Sick;
 let Dead;
 
+//bg
 let CurrentImg;
 let baseBackground;
 let gardenImg;
 let atticImg;
 let gameRoomImg;
 let TrashIcon;
+
+//button images
+let btn_Normal
+let btn_Hover
+let btn_Pressed
+
 
 //Sounds
 let bgMusic;
@@ -60,10 +67,11 @@ let CurserHungerIcon;
 let CurserHandIcon;
 
 //buttons
-let FeedButton;
-let EnergyButton;
+let feedButton;
+let energyButton;
 let PlayButton;
-let CleanButton;
+let resetButton;
+let cleanButton;
 
 //saved variables
 let SavedHunger;
@@ -76,11 +84,17 @@ let bgChoice;
 let chosenBG;
 
 
-//positions vars
+//tamagotchi (tama=tamagotchi)
 
-//tamagotchi
-let xTamagotchi = 340;
-let yTamagotchi = 460;
+let xTama = 340;
+let yTama = 560;
+
+//name of the tamagotchi
+let nameOfTama;
+let chosenName;
+let savedName;
+let xPosName = 370
+let yPosName = 430
 
 //box
 let xBox = 0;
@@ -93,6 +107,8 @@ let roundingBox = 30;
 let xSleepText = 380;
 let ySleepText = 0;
 
+//fonts
+let pixelFont;
 
 
 function preload() {
@@ -100,7 +116,7 @@ function preload() {
   Happy = loadImage('../assets/Happy face.png')
   Sad = loadImage('../assets/Sad face.png')
   //nog werken aan Neutral emotie 
-  Neutral = loadImage('../assets/Happy face.png')
+  Neutral = loadImage('../assets/tired face.png')
   Hungry = loadImage('../assets/Hungry face.png')
   Sick = loadImage('../assets/Sick face.png')
   Dead = loadImage('../assets/Dead face.png')
@@ -118,24 +134,38 @@ function preload() {
   luckIcon = loadImage('../assets/Four leafe clover.png')
   TrashIcon = loadImage('../assets/garbagebag.png');
 
+  //hand curers
   CurserHungerIcon = loadImage('../assets/test2.png')
   CurserHandIcon = loadImage('../assets/hand cursor.png')
 
+  //btn images
+  btn_Normal = loadImage('../assets/btn_Normal.png')
+  btn_Hover = loadImage('../assets/btn_Pressed.png')
+  btn_Pressed = loadImage('../assets/btn_Hover.png')
+
+  //music
   bgMusic = loadSound('../assets/bg_sound.mp3');
+
+  //font 
+  pixelFont = loadFont('../assets/PressStart2P-Regular.ttf');
 }
 
 
 function setup() {
   createCanvas(800, 600);
-  bgChoice = createSelect();
-  bgChoice.position(650, 550);
+  textFont(pixelFont)
+  nameOfTama = createInput('').attribute('placeholder', 'name');
+  nameOfTama.position(5, 55)
 
-  bgChoice.option('Basis achtergrond');
+  bgChoice = createSelect();
+  bgChoice.position(5, 10);
+
+  bgChoice.option('Woonkamer');
   bgChoice.option('Tuin');
   bgChoice.option('Zolder');
   bgChoice.option('Game kamer');
 
-  bgChoice.selected('Basis achtergrond');
+  bgChoice.selected('Woonkamer');
 
 
   CurrentImg = Happy;
@@ -160,33 +190,43 @@ function setup() {
     HP = savedHP
   }
 
-  FeedButton = createButton('klik om te voeden')
-  FeedButton.mousePressed(Feed);
-  FeedButton.position(10, 10)
+  savedName = getItem("Name");
+  if (savedName !== null) {
+    chosenName = savedName;
+    nameOfTama.value(chosenName);
+  }
 
-  EnergyButton = createButton('klik om te slapen')
-  EnergyButton.mousePressed(GiveEnergy);
-  EnergyButton.position(195, 10)
+
+
+  feedButton = createButton('klik om te voeden')
+  feedButton.mousePressed(Feed);
+  feedButton.position(5, 550)
+
+  energyButton = createButton('klik om te slapen')
+  energyButton.mousePressed(GiveEnergy);
+  energyButton.position(150, 550)
 
   PlayButton = createButton('klik om te spelen')
   PlayButton.mousePressed(Play);
-  PlayButton.position(380, 10)
+  PlayButton.position(505, 550)
 
-  CleanButton = createButton('klik om schoon te maken')
-  CleanButton.mousePressed(Clean);
-  CleanButton.position(565, 10)
+  cleanButton = createButton('klik om schoon te maken')
+  cleanButton.mousePressed(Clean);
+  cleanButton.position(650, 550)
 
-  PlayButton = createButton('klik om te opnieuw te beginnen')
-  PlayButton.mousePressed(resetGame);
-  PlayButton.position(10, 550)
+  resetButton = createButton('klik om opnieuw te beginnen')
+  resetButton.mousePressed(resetGame);
+  resetButton.position(640, 10)
 
   bgChoice.style('text-align: center;');
+
+  btn_styles()
 }
 
 function draw() {
   background(180);
   chosenBG = bgChoice.value()
-  if (chosenBG === 'Basis achtergrond') {
+  if (chosenBG === 'Woonkamer') {
     image(baseBackground, 0, 0);
     push()
     fill(255, 150, 150, 100)
@@ -212,8 +252,7 @@ function draw() {
     pop()
   }
 
-
-
+  //changing curser based on action
   UpdateStats();
   if (isFeeding) {
     cursor('../assets/test2.png', 16, 16);
@@ -223,7 +262,13 @@ function draw() {
     cursor(ARROW);
   }
 
-  image(CurrentImg, xTamagotchi, yTamagotchi);
+  chosenName = nameOfTama.value()
+  push()
+  fill(255)
+  textSize(15)
+  text(chosenName, xPosName, yPosName)
+  pop()
+  image(CurrentImg, xTama, yTama);
   sleeping();
   stat();
   drawTrash();
@@ -245,21 +290,22 @@ function resetGame() {
   saveScore()
 }
 
-
+//sleep function
 function sleeping() {
   if (isSleeping == true) {
     let Seconds = deltaTime / 1000;
 
     push()
     tint(0, 0, 0, 200)
-    image(CurrentImg, xTamagotchi, yTamagotchi)
-    if (chosenBG === 'Basis achtergrond') {
-      yTamagotchi = 300
-      ySleepText = 250
+    image(CurrentImg, xTama, yTama)
+    if (chosenBG === 'Woonkamer') {
+      yTama = 300
+      ySleepText = 260
+      yPosName = 300
     }
     pop()
 
-    textSize(40);
+    textSize(25);
     text("Zzz...", xSleepText, ySleepText);
     Energy += normalImprove * Seconds;
     HP += smallImprove * Seconds;
@@ -267,8 +313,9 @@ function sleeping() {
   }
   if (isSleeping == false) {
     tint(255);
-    yTamagotchi = 460;
+    yTama = 460;
     ySleepText = 400;
+    yPosName = 430
   }
 }
 
@@ -498,9 +545,45 @@ function UpdateStats() {
   }
 }
 
+function btn_styles() {
+  let buttons = [feedButton, energyButton, PlayButton, cleanButton, resetButton, nameOfTama];
+
+  for (let btn of buttons) {
+    btn.size(140, 50);
+    btn.style('background-image', "url('../assets/btn_Normal.png')");
+    btn.style('background-size', 'contain');
+    btn.style('background-repeat', 'no-repeat');
+    btn.style('background-color', 'transparent');
+    btn.style('border', 'none');
+    btn.style('outline', 'none');
+    btn.style('color', 'white');
+    btn.style('font-size', '8px');
+    btn.style('font-family', 'PressStart2P-Regular');
+    btn.style('padding-left', '15px');
+    btn.style('padding-right', '15px');
+  }
+
+  bgChoice.size(150, 60);
+  bgChoice.style('background-image', "url('../assets/btn_Normal.png')");
+  bgChoice.style('background-size', 'contain');
+  bgChoice.style('background-repeat', 'no-repeat');
+  bgChoice.style('background-color', 'transparent');
+  bgChoice.style('border', 'none');
+  bgChoice.style('color', 'white');
+  bgChoice.style('font-size', '12px');
+  bgChoice.style('font-family', 'PressStart2P-Regular');
+  bgChoice.style('padding-left', '15px');
+  bgChoice.style('padding-right', '15px');
+
+
+
+
+}
+
 function saveScore() {
   storeItem("Hunger", fullness);
   storeItem("Energy", Energy);
   storeItem("Luck", Luck);
   storeItem("HP", HP);
+  storeItem("Name", nameOfTama.value())
 }
