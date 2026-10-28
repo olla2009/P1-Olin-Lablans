@@ -1,31 +1,57 @@
-//hunger
-let fullness = 0;
-let loseFullness = 0.6;
-let isFeeding = false;
-let maxHunger = 5;
+class Stat {
+  constructor(value, loseRate, icon, startX, startY, w, h) {
+    this.value = value;
+    this.loseRate = loseRate;
+    this.maxIcons = 5;
+    this.icon = icon;
+    this.startX = startX;
+    this.startY = startY;
+    this.w = w;
+    this.h = h;
+  }
 
-//Energy
-let Energy = 100;
-let loseEnergy = 0.5;
-let maxEnergy = 5
-let isSleeping = false
+  update(seconds) {
+    if (this.value > 0) {
+      this.value -= this.loseRate * seconds;
+    }
+    this.value = constrain(this.value, 0, 100);
+    this.updateIcons();
+  }
 
-//luck
-let Luck = 100;
-let loseLuck = 0.7;
-let luckIcon;
-let maxLuck = 5
-let isPlaying = false;
+  updateIcons() {
+    if (this.value > 80 && this.value <= 100) this.maxIcons = 5;
+    else if (this.value > 60 && this.value <= 80) this.maxIcons = 4;
+    else if (this.value > 40 && this.value <= 60) this.maxIcons = 3;
+    else if (this.value > 10 && this.value <= 40) this.maxIcons = 2;
+    else if (this.value <= 10) this.maxIcons = 1;
+  }
 
-//health
-let HP = 100;
-let LoseHp = 0.3;
-let MaxHearts = 5
+  display() {
+    for (let i = 0; i < this.maxIcons; i++) {
+      image(this.icon, this.startX + (i * 30), this.startY, this.w, this.h);
+    }
+  }
+
+  add(amount) {
+    this.value += amount;
+    if (this.value > 100) this.value = 100;
+  }
+
+  subtract(amount) {
+    this.value -= amount;
+    if (this.value < 0) this.value = 0;
+  }
+}
+
+//stats
+let hunger;
+let energy;
+let luck;
+let hp;
 
 //universal
-let Status;
-let normalImprove = 10
-let smallImprove = 5
+let normalImprove = 10;
+let smallImprove = 5;
 
 //images
 let Happy;
@@ -44,14 +70,12 @@ let gameRoomImg;
 let TrashIcon;
 
 //button images
-let btn_Normal
-let btn_Hover
-let btn_Pressed
-
+let btn_Normal;
+let btn_Hover;
+let btn_Pressed;
 
 //Sounds
 let bgMusic;
-
 
 //cleaning
 let isCleaning = false;
@@ -61,6 +85,7 @@ let trashItems = [];
 let HeartIcon;
 let HungerIcon;
 let EnergyIcon;
+let luckIcon;
 
 //curser images
 let CurserHungerIcon;
@@ -73,19 +98,11 @@ let PlayButton;
 let resetButton;
 let cleanButton;
 
-//saved variables
-let SavedHunger;
-let savedEnergy;
-let savedLuck;
-let savedHP;
-
 //dropdown menu
 let bgChoice;
 let chosenBG;
 
-
 //tamagotchi (tama=tamagotchi)
-
 let xTama = 340;
 let yTama = 560;
 
@@ -93,8 +110,8 @@ let yTama = 560;
 let nameOfTama;
 let chosenName;
 let savedName;
-let xPosName = 370
-let yPosName = 430
+let xPosName = 370;
+let yPosName = 430;
 
 //box
 let xBox = 0;
@@ -110,38 +127,42 @@ let ySleepText = 0;
 //fonts
 let pixelFont;
 
+//actions state
+let isFeeding = false;
+let isSleeping = false;
+let isPlaying = false;
+
 
 function preload() {
   //emotions
-  Happy = loadImage('../assets/Happy face.png')
-  Sad = loadImage('../assets/Sad face.png')
-  //nog werken aan Neutral emotie 
-  Neutral = loadImage('../assets/tired face.png')
-  Hungry = loadImage('../assets/Hungry face.png')
-  Sick = loadImage('../assets/Sick face.png')
-  Dead = loadImage('../assets/Dead face.png')
+  Happy = loadImage('../assets/Happy face.png');
+  Sad = loadImage('../assets/Sad face.png');
+  Neutral = loadImage('../assets/Neutral face.png');
+  Hungry = loadImage('../assets/Hungry face.png');
+  Sick = loadImage('../assets/Sick face.png');
+  Dead = loadImage('../assets/Dead face.png');
 
   //backgrounds
-  baseBackground = loadImage('../assets/base_bg.jpeg')
-  gardenImg = loadImage('../assets/garden.png')
-  atticImg = loadImage('../assets/Attic.png')
-  gameRoomImg = loadImage('../assets/Gameroom.png')
+  baseBackground = loadImage('../assets/base_bg.jpeg');
+  gardenImg = loadImage('../assets/garden.png');
+  atticImg = loadImage('../assets/Attic.png');
+  gameRoomImg = loadImage('../assets/Gameroom.png');
 
   //Icons
-  HeartIcon = loadImage('../assets/Health icon.png')
-  HungerIcon = loadImage('../assets/Hunger icon.png')
-  EnergyIcon = loadImage('../assets/EnergyIcon.png')
-  luckIcon = loadImage('../assets/Four leafe clover.png')
+  HeartIcon = loadImage('../assets/Health icon.png');
+  HungerIcon = loadImage('../assets/Hunger icon.png');
+  EnergyIcon = loadImage('../assets/EnergyIcon.png');
+  luckIcon = loadImage('../assets/Four leafe clover.png');
   TrashIcon = loadImage('../assets/garbagebag.png');
 
   //hand curers
-  CurserHungerIcon = loadImage('../assets/test2.png')
-  CurserHandIcon = loadImage('../assets/hand cursor.png')
+  CurserHungerIcon = loadImage('../assets/test2.png');
+  CurserHandIcon = loadImage('../assets/hand cursor.png');
 
   //btn images
-  btn_Normal = loadImage('../assets/btn_Normal.png')
-  btn_Hover = loadImage('../assets/btn_Pressed.png')
-  btn_Pressed = loadImage('../assets/btn_Hover.png')
+  btn_Normal = loadImage('../assets/btn_Normal.png');
+  btn_Hover = loadImage('../assets/btn_Pressed.png');
+  btn_Pressed = loadImage('../assets/btn_Hover.png');
 
   //music
   bgMusic = loadSound('../assets/bg_sound.mp3');
@@ -153,9 +174,15 @@ function preload() {
 
 function setup() {
   createCanvas(800, 600);
-  textFont(pixelFont)
+  textFont(pixelFont);
+
+  hp = new Stat(100, 0.3, HeartIcon, 0, 250, 40, 40);
+  energy = new Stat(100, 0.5, EnergyIcon, 0, 300, 40, 40);
+  hunger = new Stat(100, 0.6, HungerIcon, -20, 330, 70, 70);
+  luck = new Stat(100, 0.7, luckIcon, -5, 400, 50, 50);
+
   nameOfTama = createInput('').attribute('placeholder', 'name');
-  nameOfTama.position(5, 55)
+  nameOfTama.position(5, 55);
 
   bgChoice = createSelect();
   bgChoice.position(5, 10);
@@ -167,27 +194,26 @@ function setup() {
 
   bgChoice.selected('Woonkamer');
 
-
   CurrentImg = Happy;
 
-  SavedHunger = getItem("Hunger");
+  let SavedHunger = getItem("Hunger");
   if (SavedHunger !== null) {
-    fullness = SavedHunger;
+    hunger.value = SavedHunger;
   }
 
-  savedEnergy = getItem("Energy");
+  let savedEnergy = getItem("Energy");
   if (savedEnergy !== null) {
-    Energy = savedEnergy
+    energy.value = savedEnergy;
   }
 
-  savedLuck = getItem("Luck");
+  let savedLuck = getItem("Luck");
   if (savedLuck !== null) {
-    Luck = savedLuck
+    luck.value = savedLuck;
   }
 
-  savedHP = getItem("HP");
+  let savedHP = getItem("HP");
   if (savedHP !== null) {
-    HP = savedHP
+    hp.value = savedHP;
   }
 
   savedName = getItem("Name");
@@ -196,60 +222,58 @@ function setup() {
     nameOfTama.value(chosenName);
   }
 
-
-
-  feedButton = createButton('klik om te voeden')
+  feedButton = createButton('klik om te voeden');
   feedButton.mousePressed(Feed);
-  feedButton.position(5, 550)
+  feedButton.position(5, 550);
 
-  energyButton = createButton('klik om te slapen')
+  energyButton = createButton('klik om te slapen');
   energyButton.mousePressed(GiveEnergy);
-  energyButton.position(150, 550)
+  energyButton.position(150, 550);
 
-  PlayButton = createButton('klik om te spelen')
+  PlayButton = createButton('klik om te spelen');
   PlayButton.mousePressed(Play);
-  PlayButton.position(505, 550)
+  PlayButton.position(505, 550);
 
-  cleanButton = createButton('klik om schoon te maken')
+  cleanButton = createButton('klik om schoon te maken');
   cleanButton.mousePressed(Clean);
-  cleanButton.position(650, 550)
+  cleanButton.position(650, 550);
 
-  resetButton = createButton('klik om opnieuw te beginnen')
+  resetButton = createButton('klik om opnieuw te beginnen');
   resetButton.mousePressed(resetGame);
-  resetButton.position(640, 10)
+  resetButton.position(640, 10);
 
   bgChoice.style('text-align: center;');
 
-  btn_styles()
+  btn_styles();
 }
 
 function draw() {
   background(180);
-  chosenBG = bgChoice.value()
+  chosenBG = bgChoice.value();
   if (chosenBG === 'Woonkamer') {
     image(baseBackground, 0, 0);
-    push()
-    fill(255, 150, 150, 100)
-    rect(xBox, yBox, wBox, hBox, roundingBox)
-    pop()
+    push();
+    fill(255, 150, 150, 100);
+    rect(xBox, yBox, wBox, hBox, roundingBox);
+    pop();
   } else if (chosenBG === 'Tuin') {
     image(gardenImg, 0, 0, 800, 600);
-    push()
-    fill(210, 255, 210, 100)
-    rect(xBox, yBox, wBox, hBox, roundingBox)
-    pop()
+    push();
+    fill(210, 255, 210, 100);
+    rect(xBox, yBox, wBox, hBox, roundingBox);
+    pop();
   } else if (chosenBG === 'Zolder') {
     image(atticImg, 0, 0, 800, 600);
-    push()
+    push();
     fill(255, 215, 185, 100);
-    rect(xBox, yBox, wBox, hBox, roundingBox)
-    pop()
+    rect(xBox, yBox, wBox, hBox, roundingBox);
+    pop();
   } else if (chosenBG === 'Game kamer') {
-    image(gameRoomImg, 0, 0, 800, 600)
-    push()
-    fill(190, 190, 255, 100)
-    rect(xBox, yBox, wBox, hBox, roundingBox)
-    pop()
+    image(gameRoomImg, 0, 0, 800, 600);
+    push();
+    fill(190, 190, 255, 100);
+    rect(xBox, yBox, wBox, hBox, roundingBox);
+    pop();
   }
 
   //changing curser based on action
@@ -262,12 +286,12 @@ function draw() {
     cursor(ARROW);
   }
 
-  chosenName = nameOfTama.value()
-  push()
-  fill(255)
-  textSize(15)
-  text(chosenName, xPosName, yPosName)
-  pop()
+  chosenName = nameOfTama.value();
+  push();
+  fill(255);
+  textSize(15);
+  text(chosenName, xPosName, yPosName);
+  pop();
   image(CurrentImg, xTama, yTama);
   sleeping();
   stat();
@@ -277,17 +301,20 @@ function draw() {
 }
 
 function resetGame() {
-  fullness = 100;
-  Energy = 100
-  Luck = 100
-  HP = 100
+  hunger.value = 100;
+  energy.value = 100;
+  luck.value = 100;
+  hp.value = 100;
 
   removeItem('Hunger');
   removeItem('Energy');
   removeItem('Luck');
   removeItem('HP');
 
-  saveScore()
+  nameOfTama.value('');
+  chosenName = '';
+
+  saveScore();
 }
 
 //sleep function
@@ -295,27 +322,26 @@ function sleeping() {
   if (isSleeping == true) {
     let Seconds = deltaTime / 1000;
 
-    push()
-    tint(0, 0, 0, 200)
-    image(CurrentImg, xTama, yTama)
+    push();
+    tint(0, 0, 0, 200);
+    image(CurrentImg, xTama, yTama);
     if (chosenBG === 'Woonkamer') {
-      yTama = 300
-      ySleepText = 260
-      yPosName = 300
+      yTama = 300;
+      ySleepText = 260;
+      yPosName = 300;
     }
-    pop()
+    pop();
 
     textSize(25);
     text("Zzz...", xSleepText, ySleepText);
-    Energy += normalImprove * Seconds;
-    HP += smallImprove * Seconds;
-
+    energy.add(normalImprove * Seconds);
+    hp.add(smallImprove * Seconds);
   }
   if (isSleeping == false) {
     tint(255);
     yTama = 460;
     ySleepText = 400;
-    yPosName = 430
+    yPosName = 430;
   }
 }
 
@@ -326,21 +352,20 @@ function mouseClicked() {
   if (isFeeding) {
     if (mouseX > 370 && mouseX < 470 && mouseY > 440 && mouseY < 600) {
 
-      if (fullness >= 98) {
-        HP = HP - normalImprove;
+      if (hunger.value >= 98) {
+        hp.subtract(normalImprove);
       } else {
-        fullness = fullness + normalImprove;
-        Energy = Energy + smallImprove;
+        hunger.add(normalImprove);
+        energy.add(smallImprove);
       }
       isFeeding = false;
     }
-
   }
 
   if (isPlaying) {
     if (mouseX > 370 && mouseX < 470 && mouseY > 440 && mouseY < 600) {
-      Luck = Luck + normalImprove;
-      Energy = Energy - smallImprove;
+      luck.add(normalImprove);
+      energy.subtract(smallImprove);
     }
   }
 
@@ -351,15 +376,13 @@ function mouseClicked() {
 
       if (d < t.size / 2) {
         trashItems.splice(i, 1);
-        HP = HP + smallImprove;
-        if (HP > 100) HP = 100;
+        hp.add(smallImprove);
       }
     }
 
     if (trashItems.length === 0) {
       isCleaning = false;
     }
-
   }
 }
 
@@ -372,30 +395,14 @@ function drawTrash() {
         image(TrashIcon, t.x - t.size / 2, t.y - t.size / 2, t.size, t.size);
       }
     }
-
   }
 }
 
 function stat() {
-  //image for-loop for HP
-  for (let i = 0; i < MaxHearts; i++) {
-    image(HeartIcon, 0 + (i * 30), 250, 40, 40);
-  }
-
-  //image for-loop for Energy
-  for (let i = 0; i < maxEnergy; i++) {
-    image(EnergyIcon, 0 + (i * 30), 300, 40, 40);
-  }
-
-  //image for-loop for Hunger
-  for (let i = 0; i < maxHunger; i++) {
-    image(HungerIcon, -20 + (i * 30), 330, 70, 70);
-  }
-
-  //image for-loop for luck
-  for (let i = 0; i < maxLuck; i++) {
-    image(luckIcon, -5 + (i * 30), 400, 50, 50);
-  }
+  hp.display();
+  energy.display();
+  hunger.display();
+  luck.display();
 }
 
 function Feed() {
@@ -408,8 +415,8 @@ function Feed() {
 }
 
 function GiveEnergy() {
-  Energy = Energy + normalImprove
-  isSleeping = !isSleeping
+  energy.add(normalImprove);
+  isSleeping = !isSleeping;
   if (isSleeping) {
     isPlaying = false;
     isFeeding = false;
@@ -452,97 +459,32 @@ function spawnTrash() {
 }
 
 function ImgStatChange() {
-  //HP
-  if (HP > 80 && HP <= 100) {
-    MaxHearts = 5
-    CurrentImg = Happy;
-  } else if (HP > 60 && HP <= 80) {
-    MaxHearts = 4
-    CurrentImg = Neutral;
-  } else if (HP > 40 && HP <= 60) {
-    MaxHearts = 3
+  // We kijken naar de allerlaagste stat (HP, Honger of Energie)
+  // Zo reageert de Tamagotchi op hetgeen waar hij het meest onder leidt!
+  let slechtsteStat = min(hp.value, hunger.value, energy.value);
+
+  if (hp.value <= 0) {
+    CurrentImg = Dead;
+  } else if (slechtsteStat <= 20) {
+    CurrentImg = Sick;
+  } else if (slechtsteStat <= 40) {
+    CurrentImg = Sad;
+  } else if (slechtsteStat <= 60) {
     CurrentImg = Hungry;
-  } else if (HP > 10 && HP <= 40) {
-    MaxHearts = 2
-    CurrentImg = Sad;
-  } else if (HP <= 10) {
-    MaxHearts = 1
-    CurrentImg = Sad;
-  }
-
-  //Energy
-  if (Energy > 80 && Energy <= 100) {
-    maxEnergy = 5
-  } else if (Energy > 60 && Energy <= 80) {
-    maxEnergy = 4
-  } else if (Energy > 40 && Energy <= 60) {
-    maxEnergy = 3
-  } else if (Energy > 10 && Energy <= 40) {
-    maxEnergy = 2
-  } else if (Energy <= 10) {
-    maxEnergy = 1
-  }
-
-  //hunger
-  if (fullness > 80 && fullness <= 100) {
-    maxHunger = 5
-  } else if (fullness > 60 && fullness <= 80) {
-    maxHunger = 4
-  } else if (fullness > 40 && fullness <= 60) {
-    maxHunger = 3
-  } else if (fullness > 10 && fullness <= 40) {
-    maxHunger = 2
-  } else if (fullness <= 10) {
-    maxHunger = 1
-  }
-
-  //Luck
-  if (Luck > 80 && Luck <= 100) {
-    maxLuck = 5
-  } else if (Luck > 60 && Luck <= 80) {
-    maxLuck = 4
-  } else if (Luck > 40 && Luck <= 60) {
-    maxLuck = 3
-  } else if (Luck > 10 && Luck <= 40) {
-    maxLuck = 2
-  } else if (Luck <= 10) {
-    maxLuck = 1
+  } else if (slechtsteStat <= 80) {
+    CurrentImg = Neutral;
+  } else {
+    CurrentImg = Happy;
   }
 }
 
 function UpdateStats() {
-  let Seconds = deltaTime / 1000
+  let Seconds = deltaTime / 1000;
 
-  if (fullness > 0) {
-    fullness -= loseFullness * Seconds;
-  }
-  if (fullness < 0) {
-    fullness = 0;
-  }
-  if (fullness > 100) {
-    fullness = 100;
-  }
-
-  if (Energy > 0) {
-    Energy -= loseEnergy * Seconds
-  }
-  if (Energy > 100) {
-    Energy = 100;
-  }
-
-  if (Luck > 0) {
-    Luck -= loseLuck * Seconds
-  }
-  if (Luck > 100) {
-    Luck = 100;
-  }
-
-  if (HP > 0) {
-    HP -= LoseHp * Seconds
-  }
-  if (HP > 100) {
-    HP = 100;
-  }
+  hunger.update(Seconds);
+  energy.update(Seconds);
+  luck.update(Seconds);
+  hp.update(Seconds);
 }
 
 function btn_styles() {
@@ -574,16 +516,12 @@ function btn_styles() {
   bgChoice.style('font-family', 'PressStart2P-Regular');
   bgChoice.style('padding-left', '15px');
   bgChoice.style('padding-right', '15px');
-
-
-
-
 }
 
 function saveScore() {
-  storeItem("Hunger", fullness);
-  storeItem("Energy", Energy);
-  storeItem("Luck", Luck);
-  storeItem("HP", HP);
-  storeItem("Name", nameOfTama.value())
+  storeItem("Hunger", hunger.value);
+  storeItem("Energy", energy.value);
+  storeItem("Luck", luck.value);
+  storeItem("HP", hp.value);
+  storeItem("Name", nameOfTama.value());
 }
