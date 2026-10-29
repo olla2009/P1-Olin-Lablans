@@ -1,3 +1,5 @@
+
+//classes and functionality
 class Stat {
   constructor(value, loseRate, icon, startX, startY, w, h) {
     this.value = value;
@@ -43,6 +45,7 @@ class Stat {
   }
 }
 
+//variables
 //stats
 let hunger;
 let energy;
@@ -53,13 +56,52 @@ let hp;
 let normalImprove = 10;
 let smallImprove = 5;
 
-//images
-let Happy;
-let Sad;
-let Neutral;
-let Hungry;
+//Faces
+let colorChoice;
+let chosenColor;
+
+//Yellow
+let yellowHappy;
+let yellowSad;
+let yellowNeutral;
+let yellowHungry;
+let yellowDead;
+
+//Blue
+let blueHappy;
+let blueSad;
+let blueNeutral;
+let blueHungry;
+let blueDead;
+
+//Green
+let greenHappy;
+let greenSad;
+let greenNeutral;
+let greenHungry;
+let greenDead;
+
+//Red
+let redHappy;
+let redSad;
+let redNeutral;
+let redHungry;
+let redDead;
+
+//Pink
+let pinkHappy;
+let pinkSad;
+let pinkNeutral;
+let pinkHungry;
+let pinkDead;
+
+//faces
 let Sick;
-let Dead;
+let Happy
+let Sad
+let Neutral
+let Hungry
+let Dead
 
 //bg
 let CurrentImg;
@@ -76,6 +118,12 @@ let btn_Pressed;
 
 //Sounds
 let bgMusic;
+let musicHappinessSad;
+let musicHappinessSomber;
+let musicHappinessMid;
+let musicHappinessMidHappy;
+let musicHappinessHappy;
+
 
 //cleaning
 let isCleaning = false;
@@ -135,12 +183,44 @@ let isPlaying = false;
 
 function preload() {
   //emotions
-  Happy = loadImage('../assets/Happy face.png');
-  Sad = loadImage('../assets/Sad face.png');
-  Neutral = loadImage('../assets/Neutral face.png');
-  Hungry = loadImage('../assets/Hungry face.png');
-  Sick = loadImage('../assets/Sick face.png');
-  Dead = loadImage('../assets/Dead face.png');
+  //Yellow
+  yellowHappy = loadImage('../assets/Gezichten/Geel/Happy face.png');
+  yellowSad = loadImage('../assets/Gezichten/Geel//Sad face.png');
+  yellowNeutral = loadImage('../assets/Gezichten/Geel/Neutral face.png');
+  yellowHungry = loadImage('../assets/Gezichten/Geel/Hungry face.png');
+  yellowDead = loadImage('../assets/Gezichten/Geel/Dead face.png');
+
+  //Blue
+  blueHappy = loadImage('../assets/Gezichten/Blauw/Happy face.png');
+  blueSad = loadImage('../assets/Gezichten/Blauw/Sad face.png');
+  blueNeutral = loadImage('../assets/Gezichten/Blauw/Neutral face.png');
+  blueHungry = loadImage('../assets/Gezichten/Blauw/Hungry face.png');
+  blueDead = loadImage('../assets/Gezichten/Blauw/Dead face.png');
+
+  //Green
+  greenHappy = loadImage('../assets/Gezichten/Groen/Happy face.png');
+  greenSad = loadImage('../assets/Gezichten/Groen/Sad face.png');
+  greenNeutral = loadImage('../assets/Gezichten/Groen/Neutral face.png');
+  greenHungry = loadImage('../assets/Gezichten/Groen/Hungry face.png');
+  greenDead = loadImage('../assets/Gezichten/Groen/Dead face.png');
+
+  //Red
+  redHappy = loadImage('../assets/Gezichten/Rood/Happy face.png');
+  redSad = loadImage('../assets/Gezichten/Rood/Sad face.png');
+  redNeutral = loadImage('../assets/Gezichten/Rood/Neutral face.png');
+  redHungry = loadImage('../assets/Gezichten/Rood/Hungry face.png');
+  redDead = loadImage('../assets/Gezichten/Rood/Dead face.png');
+
+  //Pink
+  pinkHappy = loadImage('../assets/Gezichten/Roze/Happy face.png');
+  pinkSad = loadImage('../assets/Gezichten/Roze/Sad face.png');
+  pinkNeutral = loadImage('../assets/Gezichten/Roze/Neutral face.png');
+  pinkHungry = loadImage('../assets/Gezichten/Roze/Hungry face.png');
+  pinkDead = loadImage('../assets/Gezichten/Roze/Dead face.png');
+
+  //universal face
+  Sick = loadImage('../assets//Gezichten/Algemene gezichten/Sick face.png');
+
 
   //backgrounds
   baseBackground = loadImage('../assets/base_bg.jpeg');
@@ -155,10 +235,6 @@ function preload() {
   luckIcon = loadImage('../assets/Four leafe clover.png');
   TrashIcon = loadImage('../assets/garbagebag.png');
 
-  //hand curers
-  CurserHungerIcon = loadImage('../assets/test2.png');
-  CurserHandIcon = loadImage('../assets/hand cursor.png');
-
   //btn images
   btn_Normal = loadImage('../assets/btn_Normal.png');
   btn_Hover = loadImage('../assets/btn_Pressed.png');
@@ -166,6 +242,11 @@ function preload() {
 
   //music
   bgMusic = loadSound('../assets/bg_sound.mp3');
+  musicHappinessSad = loadSound('../assets/happines 1-5.mp3');
+  musicHappinessSomber = loadSound('../assets/Happines 2-5.mp3');
+  musicHappinessMid = loadSound('../assets/Happines 3-5.mp3');
+  musicHappinessMidHappy = loadSound('../assets/Happines 4-5.mp3');
+  musicHappinessHappy = loadSound('../assets/Happines 5-5.mp3');
 
   //font 
   pixelFont = loadFont('../assets/PressStart2P-Regular.ttf');
@@ -182,8 +263,9 @@ function setup() {
   luck = new Stat(100, 0.7, luckIcon, -5, 400, 50, 50);
 
   nameOfTama = createInput('').attribute('placeholder', 'name');
-  nameOfTama.position(5, 55);
+  nameOfTama.position(5, 100);
 
+  //bg select
   bgChoice = createSelect();
   bgChoice.position(5, 10);
 
@@ -194,8 +276,21 @@ function setup() {
 
   bgChoice.selected('Woonkamer');
 
+  colorChoice = createSelect();
+  colorChoice.position(5, 55);
+
+  colorChoice.option('Yellow');
+  colorChoice.option('Blue');
+  colorChoice.option('Green');
+  colorChoice.option('Red');
+  colorChoice.option('Pink');
+
+  colorChoice.selected('Yellow')
+
+  Happy = yellowHappy
   CurrentImg = Happy;
 
+  //Get the saved items
   let SavedHunger = getItem("Hunger");
   if (SavedHunger !== null) {
     hunger.value = SavedHunger;
@@ -222,6 +317,17 @@ function setup() {
     nameOfTama.value(chosenName);
   }
 
+  let savedColor = getItem("Color");
+  if (savedColor !== null) {
+    colorChoice.selected(savedColor);
+  }
+
+  let savedBG = getItem("Background");
+  if (savedBG !== null) {
+    bgChoice.selected(savedBG);
+  }
+
+  //The buttons
   feedButton = createButton('klik om te voeden');
   feedButton.mousePressed(Feed);
   feedButton.position(5, 550);
@@ -250,6 +356,7 @@ function setup() {
 function draw() {
   background(180);
   chosenBG = bgChoice.value();
+  //backgrounds and the boxes behind the icons
   if (chosenBG === 'Woonkamer') {
     image(baseBackground, 0, 0);
     push();
@@ -276,10 +383,50 @@ function draw() {
     pop();
   }
 
+
+
+
+  chosenColor = colorChoice.value()
+  if (chosenColor === 'Yellow') {
+    Happy = yellowHappy
+    Sad = yellowSad
+    Neutral = yellowNeutral
+    Hungry = yellowHungry
+    Dead = yellowDead
+  } else if (chosenColor === 'Blue') {
+    Happy = blueHappy
+    Sad = blueSad
+    Neutral = blueNeutral
+    Hungry = blueHungry
+    Dead = blueDead
+  } else if (chosenColor === 'Green') {
+    Happy = greenHappy
+    Sad = greenSad
+    Neutral = greenNeutral
+    Hungry = greenHungry
+    Dead = greenDead
+  } else if (chosenColor === 'Red') {
+    Happy = redHappy
+    Sad = redSad
+    Neutral = redNeutral
+    Hungry = redHungry
+    Dead = redDead
+  } else if (chosenColor === 'Pink') {
+    Happy = pinkHappy
+    Sad = pinkSad
+    Neutral = pinkNeutral
+    Hungry = pinkHungry
+    Dead = pinkDead
+  }
+
+
+
+
+
   //changing curser based on action
   UpdateStats();
   if (isFeeding) {
-    cursor('../assets/test2.png', 16, 16);
+    cursor('../assets/meatCursur.png', 16, 16);
   } else if (isPlaying) {
     cursor('../assets/handcursur.png', 16, 16);
   } else {
@@ -300,6 +447,7 @@ function draw() {
   saveScore();
 }
 
+//Reset function
 function resetGame() {
   hunger.value = 100;
   energy.value = 100;
@@ -313,6 +461,9 @@ function resetGame() {
 
   nameOfTama.value('');
   chosenName = '';
+  colorChoice.value('Yellow');
+  bgChoice.value('Woonkamer');
+
 
   saveScore();
 }
@@ -346,9 +497,12 @@ function sleeping() {
 }
 
 function mouseClicked() {
+  //Function for the music to start when you clicked
   if (!bgMusic.isPlaying()) {
     bgMusic.loop();
   }
+
+  //Feeding functionality
   if (isFeeding) {
     if (mouseX > 370 && mouseX < 470 && mouseY > 440 && mouseY < 600) {
 
@@ -362,13 +516,14 @@ function mouseClicked() {
     }
   }
 
+  //Playing functionality
   if (isPlaying) {
     if (mouseX > 370 && mouseX < 470 && mouseY > 440 && mouseY < 600) {
       luck.add(normalImprove);
       energy.subtract(smallImprove);
     }
   }
-
+  //Cleaning functionality
   if (isCleaning) {
     for (let i = trashItems.length - 1; i >= 0; i--) {
       let t = trashItems[i];
@@ -386,6 +541,7 @@ function mouseClicked() {
   }
 }
 
+//Thrash spawn functionality
 function drawTrash() {
   if (isCleaning) {
     for (let i = 0; i < trashItems.length; i++) {
@@ -398,6 +554,19 @@ function drawTrash() {
   }
 }
 
+function spawnTrash() {
+  trashItems = [];
+  let amount = floor(random(3, 7));
+  for (let i = 0; i < amount; i++) {
+    trashItems.push({
+      x: random(100, 700),
+      y: random(430, 570),
+      size: 100
+    });
+  }
+}
+
+//display for the icons
 function stat() {
   hp.display();
   energy.display();
@@ -405,6 +574,7 @@ function stat() {
   luck.display();
 }
 
+//functionality so that only 1 action can be performed at the same time
 function Feed() {
   isFeeding = !isFeeding;
   if (isFeeding) {
@@ -446,18 +616,9 @@ function Clean() {
   }
 }
 
-function spawnTrash() {
-  trashItems = [];
-  let amount = floor(random(3, 7));
-  for (let i = 0; i < amount; i++) {
-    trashItems.push({
-      x: random(100, 700),
-      y: random(430, 570),
-      size: 100
-    });
-  }
-}
 
+
+//functionality for the image to change with the corresponding stats
 function ImgStatChange() {
   let worstStat = min(hp.value, hunger.value, energy.value);
 
@@ -476,6 +637,9 @@ function ImgStatChange() {
   }
 }
 
+
+
+
 function UpdateStats() {
   let Seconds = deltaTime / 1000;
 
@@ -485,6 +649,8 @@ function UpdateStats() {
   hp.update(Seconds);
 }
 
+
+//styles for the buttons 
 function btn_styles() {
   let buttons = [feedButton, energyButton, PlayButton, cleanButton, resetButton, nameOfTama];
 
@@ -503,23 +669,32 @@ function btn_styles() {
     btn.style('padding-right', '15px');
   }
 
-  bgChoice.size(150, 60);
-  bgChoice.style('background-image', "url('../assets/btn_Normal.png')");
-  bgChoice.style('background-size', 'contain');
-  bgChoice.style('background-repeat', 'no-repeat');
-  bgChoice.style('background-color', 'transparent');
-  bgChoice.style('border', 'none');
-  bgChoice.style('color', 'white');
-  bgChoice.style('font-size', '12px');
-  bgChoice.style('font-family', 'PressStart2P-Regular');
-  bgChoice.style('padding-left', '15px');
-  bgChoice.style('padding-right', '15px');
+  let selectorsStyle = [bgChoice, colorChoice]
+  for (let selector of selectorsStyle) {
+    selector.size(150, 60);
+    selector.style('background-image', "url('../assets/btn_Normal.png')");
+    selector.style('background-size', 'contain');
+    selector.style('background-repeat', 'no-repeat');
+    selector.style('background-color', 'transparent');
+    selector.style('border', 'none');
+    selector.style('color', 'white');
+    selector.style('font-size', '12px');
+    selector.style('font-family', 'PressStart2P-Regular');
+    selector.style('padding-left', '15px');
+    selector.style('padding-right', '15px');
+  }
 }
 
+
+
+
+//functionality to save the items
 function saveScore() {
   storeItem("Hunger", hunger.value);
   storeItem("Energy", energy.value);
   storeItem("Luck", luck.value);
   storeItem("HP", hp.value);
   storeItem("Name", nameOfTama.value());
+  storeItem("Color", colorChoice.value());
+  storeItem("Background", bgChoice.value());
 }
