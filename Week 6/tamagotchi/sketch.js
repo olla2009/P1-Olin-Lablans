@@ -230,7 +230,7 @@ function setup() {
   energyButton.mousePressed(GiveEnergy);
   energyButton.position(150, 550);
 
-  PlayButton = createButton('klik om te spelen');
+  PlayButton = createButton('klik om te aaien');
   PlayButton.mousePressed(Play);
   PlayButton.position(505, 550);
 
@@ -459,19 +459,17 @@ function spawnTrash() {
 }
 
 function ImgStatChange() {
-  // We kijken naar de allerlaagste stat (HP, Honger of Energie)
-  // Zo reageert de Tamagotchi op hetgeen waar hij het meest onder leidt!
-  let slechtsteStat = min(hp.value, hunger.value, energy.value);
+  let worstStat = min(hp.value, hunger.value, energy.value);
 
   if (hp.value <= 0) {
     CurrentImg = Dead;
-  } else if (slechtsteStat <= 20) {
+  } else if (worstStat <= 20) {
     CurrentImg = Sick;
-  } else if (slechtsteStat <= 40) {
+  } else if (worstStat <= 40) {
     CurrentImg = Sad;
-  } else if (slechtsteStat <= 60) {
+  } else if (worstStat <= 60) {
     CurrentImg = Hungry;
-  } else if (slechtsteStat <= 80) {
+  } else if (worstStat <= 80) {
     CurrentImg = Neutral;
   } else {
     CurrentImg = Happy;
